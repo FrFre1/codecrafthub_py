@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, abort
 import json
 import os
+from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
@@ -11,6 +12,19 @@ COURSES_FILE = 'courses.json'
 # Allowed status values
 ALLOWED_STATUS = ["Not Started", "In Progress", "Completed"]
 
+CORS(
+    app,
+    resources={
+        r"/api/*": {
+            "origins": [
+                "http://localhost:5500",
+                "http://127.0.0.1:5500",
+            ],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type"],
+        }
+    },
+)
 
 def initialize_courses_file():
     """
